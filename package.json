@@ -1,0 +1,30 @@
+{
+	"name": "frontend-boilerplate",
+	"version": "1.0.0",
+	"description": "FrontEnd Boilerplate - HTML5 starter for easy building sites using Gulp",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "github.com/zakandaiev",
+	"license": "ISC",
+	"devDependencies": {
+		"browser-sync": "^2.26.3",
+		"del": "^3.0.0",
+		"gulp": "^4.0.0",
+		"gulp-autoprefixer": "^6.0.0",
+		"gulp-clean-css": "^4.0.0",
+		"gulp-htmlmin": "^5.0.1",
+		"gulp-imagemin": "^5.0.3",
+		"gulp-rigger": "^0.5.8",
+		"gulp-rsync": "0.0.8",
+		"gulp-sourcemaps": "^2.6.4",
+		"gulp-stylus": "^2.7.0",
+		"gulp-uglify": "^3.0.1"
+	},
+	"dependencies": {
+		"jquery": "^3.3.1",
+		"normalize.css": "^8.0.1",
+		"reset-css": "^4.0.1"
+	}
+}

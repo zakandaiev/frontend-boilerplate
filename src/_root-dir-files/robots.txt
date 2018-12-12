@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /404.html
+
+Sitemap: http://yousite.com/sitemap.xml
+Sitemap: http://yousite.com/sitemap.xml.gz

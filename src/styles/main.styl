@@ -1,0 +1,37 @@
+/*==========  Third party  ==========*/
+@import "../../node_modules/normalize.css/normalize.css"
+@import "../../node_modules/reset-css/reset.css"
+
+/*==========  Variables, Mixins, Fonts ==========*/
+@import "vars"
+
+/*==========  Global ==========*/
+*, ::before, ::after
+	box-sizing border-box
+	margin 0
+	padding 0
+
+html, body
+	height 100%
+
+body
+	font-family $default-font
+	font-size 16px
+	font-weight 300
+	line-height 1.75
+	min-width 320px
+	position relative
+	overflow-x hidden
+	color $text
+	background-color $accent
+	text-align center
+
+a
+	text-decoration none
+
+/*==========  Custom  ==========*/
+@import "partials/header"
+@import "partials/footer"
+
+/*==========  Import Media Queries (Always at the end)  ==========*/
+@import "media"
