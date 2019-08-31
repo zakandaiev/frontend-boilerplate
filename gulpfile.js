@@ -87,10 +87,18 @@ gulp.task('js:build', js_build);
 
 function image_build(){
 	return 	gulp.src(path.src.img)
-			.pipe(imagemin({
-				progressive: true,
-				optimizationLevel: 5,
-				svgoPlugins: [{removeViewBox: false}]
+			.pipe(imagemin([
+				imagemin.gifsicle({interlaced: true}),
+				imagemin.jpegtran({progressive: true}),
+				imagemin.optipng({optimizationLevel: 5}),
+				imagemin.svgo({
+					plugins: [
+						{removeViewBox: false},
+						{cleanupIDs: false}
+					]
+				})
+			], {
+				verbose: true
 			}))
 			.pipe(gulp.dest(path.build.img))
 			.pipe(browserSync.stream());
