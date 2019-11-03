@@ -1,48 +1,66 @@
 'use strict';
 
-var browserSync 	= require('browser-sync').create();
+const browserSync 	= require('browser-sync').create();
 
-var del 			= require('del');
+const del 			= require('del');
 
-var gulp 			= require('gulp'),
+const gulp 			= require('gulp'),
 	autoprefixer 	= require('gulp-autoprefixer'),
 	cleancss 		= require('gulp-clean-css'),
 	htmlmin 		= require('gulp-htmlmin'),
 	imagemin 		= require('gulp-imagemin'),
 	rigger 			= require('gulp-rigger'),
-	rsync 			= require('gulp-rsync'),
 	sourcemaps 		= require('gulp-sourcemaps'),
 	stylus 			= require('gulp-stylus'),
 	uglify 			= require('gulp-uglify');
 
-var path = {
-    build: {
-        html: 'dist/',
-        js: 'dist/js/',
-        css: 'dist/css/',
-        img: 'dist/img/'
-    },
-    src: {
-        html: 'src/*.html',
-        js: 'src/js/main.js',
-        style: 'src/styles/main.styl',
-        img: 'src/img/**/*.*'
-    },
-    watch: {
-        html: 'src/**/*.html',
-        js: 'src/js/**/*.js',
-        style: 'src/styles/**/*.styl',
-        img: 'src/img/**/*.*'
-    },
-    clean: './dist/*'
+const path = {
+	prod_build: {
+		html: '_production-build/',
+		js: '_production-build/js/',
+		css: '_production-build/css/',
+		img: '_production-build/img/'
+	},
+	dev_build: {
+		html: 'dist/',
+		js: 'dist/js/',
+		css: 'dist/css/',
+		img: 'dist/img/'
+	},
+	src: {
+		html: 'src/*.html',
+		js: 'src/js/main.js',
+		style: 'src/styles/main.styl',
+		img: 'src/img/**/*.*'
+	},
+	watch: {
+		html: 'src/**/*.html',
+		js: 'src/js/**/*.js',
+		style: 'src/styles/**/*.styl',
+		img: 'src/img/**/*.*'
+	},
+	clean: {
+		dev_folder: './dist/*',
+		prod_folder: './_production-build/*'
+	}
 };
 
-function clean(){
-	return del([path.clean]);
+function cleanDev() {
+	return del([path.clean.dev_folder]);
 }
-gulp.task('clean', clean);
 
-function html_build(){
+function cleanProd() {
+	return del([path.clean.prod_folder]);
+}
+
+function htmlDevBuild() {
+	return 	gulp.src(path.src.html)
+			.pipe(rigger())
+			.pipe(gulp.dest(path.dev_build.html))
+			.pipe(browserSync.stream());
+}
+
+function htmlProdBuild() {
 	return 	gulp.src(path.src.html)
 			.pipe(rigger())
 			.pipe(htmlmin({
@@ -51,108 +69,154 @@ function html_build(){
 				minifyJS: true,
 				removeComments: true
 			}))
-			.pipe(gulp.dest(path.build.html))
-			.pipe(browserSync.stream());
+			.pipe(gulp.dest(path.prod_build.html));
 }
-gulp.task('html:build', html_build);
 
-function style_build(){
+function cssDevBuild() {
 	return 	gulp.src(path.src.style)
 			.pipe(sourcemaps.init())
 			.pipe(stylus({
 				'include css': true,
-				compress: true,
+				compress: false,
 				linenos: false,
 				sourceMap: true,
 				errLogToConsole: true
 			}))
 			.pipe(autoprefixer(['last 15 versions']))
-			.pipe(cleancss( {level: 1} ))
 			.pipe(sourcemaps.write())
-			.pipe(gulp.dest(path.build.css))
+			.pipe(gulp.dest(path.dev_build.css))
 			.pipe(browserSync.stream());
 }
-gulp.task('style:build', style_build);
 
-function js_build(){
+function cssProdBuild() {
+	return 	gulp.src(path.src.style)
+			.pipe(stylus({
+				'include css': true,
+				compress: true,
+				linenos: false,
+				sourceMap: false,
+				errLogToConsole: true
+			}))
+			.pipe(autoprefixer(['last 15 versions']))
+			.pipe(cleancss( {level: 1} ))
+			.pipe(gulp.dest(path.prod_build.css));
+}
+
+function jsDevBuild() {
 	return 	gulp.src(path.src.js)
 			.pipe(rigger())
 			.pipe(sourcemaps.init())
-			.pipe(uglify())
 			.pipe(sourcemaps.write())
-			.pipe(gulp.dest(path.build.js))
+			.pipe(gulp.dest(path.dev_build.js))
 			.pipe(browserSync.stream());
 }
-gulp.task('js:build', js_build);
 
-function image_build(){
+function jsProdBuild() {
+	return 	gulp.src(path.src.js)
+			.pipe(rigger())
+			.pipe(uglify())
+			.pipe(gulp.dest(path.prod_build.js));
+}
+
+function imageDevBuild() {
+	return 	gulp.src(path.src.img)
+			.pipe(gulp.dest(path.dev_build.img))
+			.pipe(browserSync.stream());
+}
+
+function imageProdBuild() {
 	return 	gulp.src(path.src.img)
 			.pipe(imagemin([
 				imagemin.gifsicle({interlaced: true}),
 				imagemin.jpegtran({progressive: true}),
-				imagemin.optipng({optimizationLevel: 5}),
-				imagemin.svgo({
-					plugins: [
-						{removeViewBox: false},
-						{cleanupIDs: false}
-					]
-				})
+				imagemin.optipng({optimizationLevel: 5})
 			], {
 				verbose: true
 			}))
-			.pipe(gulp.dest(path.build.img))
-			.pipe(browserSync.stream());
+			.pipe(gulp.dest(path.prod_build.img));
 }
-gulp.task('image:build', image_build);
 
-function rootDirFiles_build(){
+function rootDirFilesBuild() {
 	return 	gulp.src('./src/_root-dir-files/**/*.*')
-			.pipe(gulp.dest('dist/'))
+			.pipe(gulp.dest(path.dev_build.html))
+			.pipe(gulp.dest(path.prod_build.html))
 			.pipe(browserSync.stream());
 }
-gulp.task('rootdirfiles:build', rootDirFiles_build);
 
-gulp.task('build', gulp.series	(clean, gulp.parallel (
-											html_build,
-											style_build,
-											js_build,
-											image_build,
-											rootDirFiles_build
-										)
-								)
-);
-
-function watch(){
+function watch() {
 	browserSync.init({
-        server: {
-            baseDir: "./dist"
-        },
+		server: {
+			baseDir: "./dist"
+		},
+		//tunnel: true,
 		notify: false,
-		open: true,
-		//tunnel: true
-    });
+		open: true
+	});
 	
-	gulp.watch([path.watch.html], html_build);
-	gulp.watch([path.watch.style], style_build);
-	gulp.watch([path.watch.js], js_build);
-	gulp.watch([path.watch.img], image_build);
-	gulp.watch(['./src/_root-dir-files/**/*.*'], rootDirFiles_build);
+	gulp.watch([path.watch.html], htmlDevBuild);
+	gulp.watch([path.watch.style], cssDevBuild);
+	gulp.watch([path.watch.js], jsDevBuild);
+	gulp.watch([path.watch.img], imageDevBuild);
+	gulp.watch(['./src/_root-dir-files/**/*.*'], rootDirFilesBuild);
 }
-//gulp.task('watch', watch);
 
-gulp.task('default', gulp.series('build', watch));
+// *** EXPORT TASKS *** \\
+// del
+exports.cleanDev = cleanDev;
+exports.cleanProd = cleanProd;
 
-function rsync(){
-	return gulp.src('dist/**')
-	.pipe(rsync({
-		root: 'dist/',
-		hostname: 'username@yousite.com',
-		destination: 'yousite/public_html/',
-		exclude: ['**/Thumbs.db', '**/*.DS_Store'],
-		recursive: true,
-		archive: true,
-		silent: false,
-		compress: true
-	}))
+// html
+exports.htmlDevBuild = htmlDevBuild;
+exports.htmlProdBuild = htmlProdBuild;
+
+// css
+exports.cssDevBuild = cssDevBuild;
+exports.cssProdBuild = cssProdBuild;
+
+// js
+exports.jsDevBuild = jsDevBuild;
+exports.jsProdBuild = jsProdBuild;
+
+// image
+exports.imageDevBuild = imageDevBuild;
+exports.imageProdBuild = imageProdBuild;
+
+// rootDirFiles
+exports.rootDirFilesBuild = rootDirFilesBuild;
+
+// browserSync watch
+exports.watch = watch;
+
+// *** DEVELOPEMENT BUILD *** \\
+async function startDevBuild() {
+	return gulp.series (
+					cleanDev,
+					gulp.parallel (
+						htmlDevBuild,
+						cssDevBuild,
+						jsDevBuild,
+						imageDevBuild,
+						rootDirFilesBuild
+					),
+					watch
+	)();
 }
-gulp.task('deploy', rsync);
+exports.start = startDevBuild;
+
+// *** PRODUCTION BUILD *** \\
+async function makeProdBuild() {
+	return gulp.series (
+					cleanProd,
+					gulp.parallel (
+						htmlProdBuild,
+						cssProdBuild,
+						jsProdBuild,
+						imageProdBuild,
+						rootDirFilesBuild
+					)
+	)();
+}
+exports.build = makeProdBuild;
+
+// *** DEFAULT GULP TASK *** \\
+exports.default = startDevBuild;
