@@ -22,12 +22,24 @@ body
 	min-width 320px
 	position relative
 	overflow-x hidden
-	color $text
-	background-color $accent
+	color $text-color
+	background-color $accent-color-1
 	text-align center
 
 a
 	text-decoration none
+	transition opacity 0.3s ease
+	&:hover
+		opacity 0.7
+
+b
+	font-weight 700
+
+p
+	margin 1em 0
+
+section
+	margin 2em 0
 
 /*==========  Custom  ==========*/
 @import "partials/header"
