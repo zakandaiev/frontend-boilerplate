@@ -1,6 +1,6 @@
 # FrontEnd Boilerplate
 
-FrontEnd Boilerplate is all-inclusive HTML5 starter with Gulp task manager.
+FrontEnd Boilerplate is all-inclusive HTML5 starter with Gulp 4 task manager.
 
 ## How to use
 
@@ -13,7 +13,7 @@ FrontEnd Boilerplate is all-inclusive HTML5 starter with Gulp task manager.
 7. Your project is ready to be deployed ;)
 
 ## Features
-
+* Gulp 4
 * HTML5 & CSS3 ready
 * Includes:
   * `jQuery`
