@@ -4,7 +4,7 @@ FrontEnd Boilerplate is all-inclusive HTML5 starter with Gulp task manager.
 
 ## How to use
 
-1. Download The Repository from GitHub
+1. Download/Clone The Repository from GitHub
 2. Check updates with `npm-check-updates` & update dependencies if need be
 3. Install Node Modules using `npm i`
 4. Explore `package.json` & `gulpfile.js` to learn how it works
