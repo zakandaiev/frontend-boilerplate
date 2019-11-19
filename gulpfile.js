@@ -153,11 +153,11 @@ function watch() {
 		open: true
 	});
 	
-	gulp.watch([path.watch.html], htmlDevBuild);
-	gulp.watch([path.watch.style], cssDevBuild);
-	gulp.watch([path.watch.js], jsDevBuild);
-	gulp.watch([path.watch.img], imageDevBuild);
-	gulp.watch(['./src/_root-dir-files/**/*.*'], rootDirFilesBuild);
+	gulp.watch(path.watch.html, htmlDevBuild);
+	gulp.watch(path.watch.style, cssDevBuild);
+	gulp.watch(path.watch.js, jsDevBuild);
+	gulp.watch(path.watch.img, imageDevBuild);
+	gulp.watch("./src/_root-dir-files/**/*.*", rootDirFilesBuild);
 }
 
 // *** EXPORT TASKS *** \\
