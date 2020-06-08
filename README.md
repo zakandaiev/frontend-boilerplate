@@ -18,7 +18,7 @@ FrontEnd Boilerplate is all-inclusive HTML5 starter with Gulp 4 task manager.
 * Includes:
   * `jQuery`
   * `Normalize.css`
-* SASS/SCSS CSS preprocessor
+* SASS/SCSS preprocessor
 * Rigger include (partial template) engine
 * Autoprefixer
 * Browsersync (watch files and live reload)
