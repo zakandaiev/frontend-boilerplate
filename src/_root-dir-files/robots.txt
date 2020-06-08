@@ -1,5 +1,5 @@
 User-agent: *
 Disallow: /404.html
 
-Sitemap: http://yousite.com/sitemap.xml
-Sitemap: http://yousite.com/sitemap.xml.gz
+Sitemap: http://yoursite.com/sitemap.xml
+Sitemap: http://yoursite.com/sitemap.xml.gz
