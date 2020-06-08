@@ -79,7 +79,7 @@ function htmlProdBuild() {
 function cssDevBuild() {
     return gulp.src(path.src.style)
     .pipe(sourcemaps.init())
-    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(sass.sync({includePaths: ['node_modules']}).on('error', sass.logError))
     .pipe(autoprefixer(['last 15 versions']))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(path.dev_build.css))
@@ -88,7 +88,7 @@ function cssDevBuild() {
 
 function cssProdBuild() {
     return gulp.src(path.src.style)
-    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(sass.sync({includePaths: ['node_modules']}).on('error', sass.logError))
     .pipe(autoprefixer(['last 15 versions']))
     .pipe(cleancss( {level: 1} ))
     .pipe(gulp.dest(path.prod_build.css));
