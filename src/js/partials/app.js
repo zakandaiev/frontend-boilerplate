@@ -1,5 +1,3 @@
 $(document).ready(function(){
-
-	// Custom JS
-	
+  console.log('Its working');
 });
