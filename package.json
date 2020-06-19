@@ -1,6 +1,6 @@
 {
 	"name": "frontend-boilerplate",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"description": "FrontEnd Boilerplate - HTML5 starter for easy building sites using Gulp 4",
 	"main": "index.js",
 	"scripts": {
@@ -19,7 +19,7 @@
 		"gulp-rigger": "^0.5.8",
 		"gulp-sass": "^4.1.0",
 		"gulp-sourcemaps": "^2.6.5",
-		"gulp-uglify": "^3.0.2",
+		"gulp-terser": "^1.2.0",
 		"node-sass": "^4.14.1"
 	},
 	"dependencies": {

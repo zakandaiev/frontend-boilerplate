@@ -12,7 +12,7 @@ const   gulp            = require('gulp'),
         rigger          = require('gulp-rigger'),
         sass            = require('gulp-sass'),
         sourcemaps      = require('gulp-sourcemaps'),
-        uglify          = require('gulp-uglify');
+        terser          = require('gulp-terser');
 
 const path = {
     prod_build: {
@@ -106,7 +106,12 @@ function jsDevBuild() {
 function jsProdBuild() {
     return gulp.src(path.src.js)
     .pipe(rigger())
-    .pipe(uglify())
+    .pipe(terser({
+      ecma: 2015,
+      output: {
+        comments: false
+      }
+    }))
     .pipe(gulp.dest(path.prod_build.js));
 }
 
