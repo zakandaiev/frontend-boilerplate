@@ -1,3 +1,3 @@
-$(document).ready(function(){
-  console.log('Its working');
+$(document).ready(function() {
+	console.log('App is working');
 });

@@ -10,7 +10,7 @@ const   gulp            = require('gulp'),
         htmlmin         = require('gulp-htmlmin'),
         imagemin        = require('gulp-imagemin'),
         rigger          = require('gulp-rigger'),
-        sass            = require('gulp-sass'),
+        sass            = require('gulp-sass')(require('sass')),
         sourcemaps      = require('gulp-sourcemaps'),
         terser          = require('gulp-terser');
 
